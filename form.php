@@ -23,38 +23,21 @@
         }*/
 
 #incluindo o arquivo config.php        
-include('./config.php');
+include('./functions.php');
 
 #Atribuindo os valores do formulario para as vareaveis
 $name = $_POST['name'];
 $email = $_POST['email'];
-$senha = $_POST['senha'];
+$senha = password_hash(strval($_POST['senha']), PASSWORD_DEFAULT);
+
+#consulta se existe o email do usuario
+$result = readQuery("SELECT * FROM users WHERE email='$email'");
+#$result->num_rows > 0
+if ($result) {
+    echo "já existe um usuario cadastrado com o email informado.";
+    die();
+}
+
 
 #Executando a query de inserção
 ExecutarQuery("INSERT INTO users(name,email,senha)VALUES('$name','$email','$senha')");
-
-#declaração da função
-function ExecutarQuery($query)
-{
-    try {
-        $con = new mysqli(HOST_NAME, USER_NAME, USER_PASSWORD, DATABASE);
-        if (!$con) {
-            echo "Não possivel conectar ao banco";
-            die();
-        }
-
-        $stmt = $con->prepare($query);
-        if (!$stmt) {
-            echo "Não possivel preparar a query";
-            die();
-        }
-
-        if (!$stmt->execute()) {
-            echo "erro ao executar a query";
-        }
-        echo "Query Executada com sucesso!.";
-        die();
-    } catch (Exception $e) {
-        echo "não foi possivel conectar ao banco.<br>" . $e->getMessage();
-    }
-}
