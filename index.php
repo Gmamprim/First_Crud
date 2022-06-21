@@ -2,71 +2,31 @@
 <html lang="pt-BR">
 
 <head>
+    <!-- Declação META -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Declação Titulo -->
     <title>
         My First CRUD
     </title>
-    
+
+    <!-- Declação dos links -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    
+    <!-- Navegação -->
     <nav>
         <ul>
-            <li><a href="#">Página inicial</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contato</a></li>
+        <li><a href="./index.php">home</a></li>  
+            <li><a href="./users.php">Usuários</a></li>
+            <li><a href="./clients.php">Clientes</a></li>
         </ul>
     </nav>
+    <hr>
 
-    <form method="post" action="./form.php">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" max="50" required><br><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" max="50" placeholder="123@gmail.com" required><br><br>
-
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
-
-        <input type="submit" value="Submit">
-
-    </form>
-    <table>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>#</th>
-            </tr>
-            <?php
-            include('./functions.php');
-            $results = readQuery("SELECT * FROM users");
-
-
-            if ($results) {
-                foreach ($results as $user) {
-                   ?>
-                    <tr>
-                        <th><?php echo $user['id'] ?></th>
-                        <th><?php echo $user['name'] ?></th>
-                        <th><?php echo $user['email'] ?></th>
-                        <th>#</th>
-                    </tr>
-            <?php
-                }
-            } else {
-                echo '<tr><td colspan="4">Nenhum registro encontrado</td></tr>';
-            }
-            ?>
-
-        </table>
-
-    </table>
 </body>
 
 </html>
