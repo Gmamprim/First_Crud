@@ -8,9 +8,20 @@
     <title>
         My First CRUD
     </title>
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Página inicial</a></li>
+            <li><a href="#">Sobre</a></li>
+            <li><a href="#">Contato</a></li>
+        </ul>
+    </nav>
+
     <form method="post" action="./form.php">
         <label for="name">Nome:</label>
         <input type="text" id="name" name="name" max="50" required><br><br>
