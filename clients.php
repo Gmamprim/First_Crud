@@ -29,23 +29,26 @@
         <h1>Clientes</h1>
         <!-- Formulario de cadastro META -->
         <form method="post" action="./form.php">
-            <div>
-                <label for="name">Nome:</label>
+            <div class="d-flex">
+                <label for="name" class="form-label">Nome:</label>
                 <input type="text" id="name" name="name" max="50" required>
             </div>
-            <div>
-                <label for="Document">Cpf ou Cnpj:</label>
+
+            <div class="d-flex">
+                <label for="Document" class="form-label">Cpf ou Cnpj:</label>
                 <input type="text" id="documento" name="documento" max="50" required>
             </div>
-            <div>
-                <label for="telefone">Telefone:</label>
+
+            <div class="d-flex">
+                <label for="telefone" class="form-label">Telefone:</label>
                 <input type="text" id="telefone" name="telefone" placeholder="(99)1234-5678" required>
             </div>
-            <div>
-                <label for="email">Email:</label>
+
+            <div class="d-flex">
+                <label for="email" class="form-label">Email:</label>
                 <input type="email" id="email" name="email" max="50" placeholder="123@gmail.com" required>
             </div>
-            <input type="submit" value="Salvar">
+            <button type="submit" class="">Salvar</button>
         </form>
 
         <!-- Listagem de registros -->
