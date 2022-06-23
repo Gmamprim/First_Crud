@@ -20,7 +20,7 @@
     <!-- Navegação -->
     <nav>
         <ul>
-        <li><a href="./index.php">home</a></li>  
+            <li><a href="./index.php">home</a></li>
             <li><a href="./users.php">Usuários</a></li>
             <li><a href="./clients.php">Clientes</a></li>
         </ul>

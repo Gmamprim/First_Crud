@@ -1,28 +1,27 @@
 <?php
 include('config.php');
 #declaração da função
-function ExecutarQuery($query): void
+function ExecutarQuery($query): bool
 {
     try {
         $con = new mysqli(HOST_NAME, USER_NAME, USER_PASSWORD, DATABASE);
         if (!$con) {
-            echo "Não possivel conectar ao banco";
-            return;
+          
+            return false;
         }
 
         $stmt = $con->prepare($query);
         if (!$stmt) {
-            echo "Não possivel preparar a query";
-            return;
+            
+            return false;
         }
 
         if (!$stmt->execute()) {
-            echo "erro ao executar a query";
+            return false;
         }
-        echo "Query Executada com sucesso!.";
-        return;
+        return true;
     } catch (Exception $e) {
-        echo "não foi possivel conectar ao banco.<br>" . $e->getMessage();
+        return false;
     }
 }
 
@@ -37,8 +36,8 @@ function readQuery($query)
         #verifica se o retorno do objeto foi um valor nulo ou falso, utilizando o operador de negação "!", 
         #caso não fosse utilizado o operado de negação ele verificaria se o valor é verdadeiro
         if (!$con) {
-            echo "Não possivel conectar ao banco";
-            return;
+            $return = array("error" => "Não possivel conectar ao banco");
+            return $return;
         }
 
         #prepara o objeto de conexão para executar a query informada atraves da chamada da função readQuery
@@ -47,14 +46,14 @@ function readQuery($query)
         #verifica se o valor retornado na preparação é falso ou nulo, utilizando o operador de negação.
         #se for false entra na condição, caso contrario segue para o proximo passo da função
         if (!$stmt) {
-            echo "Não possivel preparar a query";
-            return;
+            $return = array("error" => "Não possivel Preparar a query");
+            return $return;
         }
 
         #Executa a query no banco de dados, e verifica se o retorno do processo é false, se for, entra na condição
         if ($stmt->execute() == false) {
-            echo "erro ao executar a query";
-            return;
+            $return = array("error" => "Não possivel executar");
+            return $return;
         }
 
         #pega o resultado da consulta
@@ -62,8 +61,8 @@ function readQuery($query)
 
         #retorna os valores da consulta em um array assossiativo
         return  $result->fetch_all(MYSQLI_ASSOC);
-        
     } catch (Exception $e) {
-        return "não foi possivel conectar ao banco.<br>" . $e->getMessage();
+        $return = array("error" => $e->getMessage());
+        return $return;
     }
 }

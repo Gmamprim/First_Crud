@@ -80,18 +80,15 @@
                         <td><?php echo $user['nome'] ?></td>
                         <td>
                             <?php
-                            /*
-                            if ($user['email'] == 'marcos@doretto.com.br') {
-                                echo "o cara!";
-                            } else {
-                                echo "não é o cara";
-                            }
-                            */
-                            echo ($user['email'] != 'marcos@doretto.com.br') ? "não é o cara" : "é o cara!";
+                                echo $user['email'];
                             ?>
 
                         </td>
-                        <td>#</td>
+                        <td>
+                            <a href="./user.php?id=<?=$user['id'] ?>">
+                                Editar
+                            </a>
+                        </td>
                     </tr>
             <?php
                 }
