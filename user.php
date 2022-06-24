@@ -76,13 +76,6 @@
 
         form.addEventListener('submit', function(e) {
 
-            e.preventDefault();
-
-            alert('formulario enviado');
-            
-            return false;
-
-
         });
     </script>
 </body>

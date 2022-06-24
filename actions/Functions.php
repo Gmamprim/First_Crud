@@ -1,5 +1,10 @@
 <?php
 include('config.php');
+
+function conectar() {
+    $con = new mysqli(HOST_NAME, USER_NAME, USER_PASSWORD, DATABASE);
+    return $con;
+}
 #declaração da função
 function ExecutarQuery($query): bool
 {
