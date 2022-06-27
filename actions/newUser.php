@@ -40,4 +40,6 @@ if ($result) {
 
 
 #Executando a query de inserção
-ExecutarQuery("INSERT INTO users(name,email,senha)VALUES('$name','$email','$senha')");
+ExecutarQuery("INSERT INTO users(nome,email,senha)VALUES('$name','$email','$senha')");
+
+header('Location: ../users.php');

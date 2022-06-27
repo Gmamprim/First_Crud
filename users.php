@@ -1,103 +1,110 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<?php
+include('./components/header.php');
+?>
 
-<head>
-    <!-- Declação META -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<section>
+    <h1>Usuarios</h1>
+    <!-- Formulario de cadastro META -->
+    <form method="post" action="./actions/newUser.php">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" max="50" required><br><br>
 
-    <!-- Declação Titulo -->
-    <title>
-        My First CRUD
-    </title>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" max="50" placeholder="123@gmail.com" required><br><br>
 
-    <!-- Declação dos links -->
-    <link rel="stylesheet" href="styles.css">
-</head>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
 
-<body>
-    <!-- Navegação -->
-    <nav>
-        <ul>
-            <li><a href="./index.php">home</a></li>
-            <li><a href="./users.php">Usuários</a></li>
-            <li><a href="./clients.php">Clientes</a></li>
-        </ul>
-    </nav>
-    <section>
-        <h1>Usuarios</h1>
-        <!-- Formulario de cadastro META -->
-        <form method="post" action="./form.php">
-            <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" max="50" required><br><br>
+        <input type="submit" value="Salvar">
+    </form>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" max="50" placeholder="123@gmail.com" required><br><br>
+    <!-- Listagem de registros -->
+    <table>
 
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
+        <!-- Cabeçalho -->
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>#</th>
+        </tr>
 
-            <input type="submit" value="Salvar">
-        </form>
+        <?php
+        #inclusão do arquivo functions para o contexto
+        include('./actions/functions.php');
 
-        <!-- Listagem de registros -->
-        <table>
+        #chamada da função que retorna os dados da consulta no banco de dados
+        $results = readQuery("SELECT * FROM users");
 
-            <!-- Cabeçalho -->
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>#</th>
-            </tr>
+        #verifica o retorno da função
+        if ($results) {
 
-            <?php
-            #inclusão do arquivo functions para o contexto
-            include('./actions/functions.php');
+            #Loop de repetição para listar todos os registros encontrados
 
-            #chamada da função que retorna os dados da consulta no banco de dados
-            $results = readQuery("SELECT * FROM users");
-
-            #verifica o retorno da função
-            if ($results) {
-
-                #Loop de repetição para listar todos os registros encontrados
-
-                /*$i = 0;
+            /*$i = 0;
                 while (empty($results[$i]) == false) {*/
-                /*
+            /*
 
                 for ($i = 0; empty($results[$i]) == false; $i++) {
                     $user = $results[$i];
                     */
 
-                foreach ($results as $user) {
+            foreach ($results as $user) {
 
-            ?>
-                    <tr>
-                        <td><?php echo $user['id'] ?></td>
-                        <td><?php echo $user['nome'] ?></td>
-                        <td>
-                            <?php
-                                echo $user['email'];
-                            ?>
+        ?>
+                <tr>
+                    <td><?php echo $user['id'] ?></td>
+                    <td><?php echo $user['nome'] ?></td>
+                    <td>
+                        <?php
+                        echo $user['email'];
+                        ?>
 
-                        </td>
-                        <td>
-                            <a href="./user.php?id=<?=$user['id'] ?>">
-                                Editar
-                            </a>
-                        </td>
-                    </tr>
-            <?php
-                }
-            } else {
-                echo '<tr><td colspan="4">Nenhum registro encontrado</td></tr>';
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="./user.php?id=<?= $user['id'] ?>">
+                            <i class="fa fa-edit"></i>
+                            Editar
+                        </a>
+                        <button type="button" id="btn-Excluir-<?= $user['id'] ?>" onclick="deleteUsuario(<?= $user['id'] ?>)" class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+        <?php
             }
-            ?>
-        </table>
-    </section>
-</body>
-
-</html>
+        } else {
+            echo '<tr><td colspan="4">Nenhum registro encontrado</td></tr>';
+        }
+        ?>
+    </table>
+    <input type="hidden" name="id" id="id" />
+</section>
+<script>
+    function deleteUsuario(id) {
+        $("#id").val(id);
+        $("#btn-Excluir-"+id).prop("disabled", true);
+        $("#btn-Excluir-"+id).html(`<i class="fa fa-spinner faa-spin animated"></i> 
+                Excluindo...`);
+        $.ajax({
+            url: "./actions/deleteUser.php",
+            type: "POST",
+            dataType: 'json',
+            data: {
+                id: $("#id").val()
+            },
+            success: function(data) {
+                alert(data.mensage);
+                window.location.reload();
+            },
+            error: function(data) {
+                alert(data.mensage);
+                window.location.reload();
+            },
+        });
+    }
+</script>
+<?php
+include('./components/footer.php');
+?>
